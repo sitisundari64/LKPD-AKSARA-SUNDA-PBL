@@ -1,0 +1,736 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>LKPD Aksara Sunda – Fase D</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=Noto+Serif:ital,wght@0,400;0,600;1,400&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --green-deep:   #1a3c2a;
+    --green-mid:    #2d6a4f;
+    --green-leaf:   #40916c;
+    --green-soft:   #74c69d;
+    --green-pale:   #d8f3dc;
+    --green-cream:  #f0faf3;
+    --gold:         #c9a84c;
+    --gold-light:   #f4e6b2;
+    --gold-pale:    #fdf8ec;
+    --ink:          #1a1a1a;
+    --ink-mid:      #3d3d3d;
+    --ink-faint:    #7a7a7a;
+    --line:         #c8ddd0;
+    --bg:           #f8faf8;
+    --white:        #ffffff;
+    --red-accent:   #c0392b;
+    --blue-accent:  #1a5276;
+    --purple-accent:#5b2c6f;
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  @media print {
+    @page { size: A4; margin: 12mm 14mm; }
+    body { background: white; }
+    .no-print { display: none !important; }
+    .page-break { page-break-before: always; }
+    .stage-card { break-inside: avoid; }
+    .answer-box { break-inside: avoid; }
+  }
+
+  body {
+    font-family: 'DM Sans', sans-serif;
+    background: var(--bg);
+    color: var(--ink);
+    font-size: 13px;
+    line-height: 1.6;
+  }
+
+  /* ── PRINT BUTTON ── */
+  .no-print {
+    position: fixed; top: 16px; right: 16px; z-index: 999;
+    display: flex; gap: 8px;
+  }
+  .btn-print {
+    background: var(--green-mid);
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 8px;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 13px;
+    font-weight: 600;
+    cursor: pointer;
+    box-shadow: 0 4px 12px rgba(45,106,79,.3);
+    transition: all .2s;
+  }
+  .btn-print:hover { background: var(--green-deep); transform: translateY(-1px); }
+
+  /* ── WRAPPER ── */
+  .page {
+    max-width: 794px;
+    margin: 0 auto;
+    background: var(--white);
+    padding: 28px 32px 36px;
+    box-shadow: 0 0 40px rgba(0,0,0,.06);
+  }
+
+  /* ── HERO HEADER ── */
+  .hero {
+    background: linear-gradient(135deg, var(--green-deep) 0%, var(--green-mid) 60%, var(--green-leaf) 100%);
+    border-radius: 12px;
+    padding: 24px 28px 22px;
+    margin-bottom: 18px;
+    position: relative;
+    overflow: hidden;
+  }
+  .hero::before {
+    content: 'ᮃᮊ᮪ᮞᮛ';
+    position: absolute; right: 20px; top: 50%; transform: translateY(-50%);
+    font-size: 52px; color: rgba(255,255,255,.08); letter-spacing: 6px;
+    pointer-events: none;
+  }
+  .hero-label {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 10px; font-weight: 600; letter-spacing: 2.5px;
+    text-transform: uppercase; color: var(--green-soft);
+    margin-bottom: 6px;
+  }
+  .hero-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 22px; font-weight: 900; color: white;
+    line-height: 1.2; margin-bottom: 4px;
+  }
+  .hero-sub {
+    font-family: 'Noto Serif', serif;
+    font-size: 12px; color: rgba(255,255,255,.65); font-style: italic;
+    margin-bottom: 10px;
+  }
+  .hero-pills { display: flex; gap: 8px; flex-wrap: wrap; }
+  .pill {
+    background: rgba(255,255,255,.15);
+    color: rgba(255,255,255,.9);
+    font-size: 10.5px; font-weight: 500;
+    padding: 3px 10px; border-radius: 20px;
+    border: 1px solid rgba(255,255,255,.2);
+  }
+
+  /* ── IDENTITAS TABLE ── */
+  .identitas-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0;
+    border: 1.5px solid var(--line);
+    border-radius: 8px;
+    overflow: hidden;
+    margin-bottom: 18px;
+    font-size: 12px;
+  }
+  .id-row { display: contents; }
+  .id-cell {
+    padding: 7px 12px;
+    border-bottom: 1px solid var(--line);
+    border-right: 1px solid var(--line);
+    display: flex; gap: 4px;
+  }
+  .id-cell:nth-child(even) { border-right: none; }
+  .id-row:last-child .id-cell { border-bottom: none; }
+  .id-label { font-weight: 600; color: var(--green-mid); white-space: nowrap; min-width: 110px; }
+  .id-value { color: var(--ink-mid); border-bottom: 1px solid var(--line); flex: 1; }
+
+  /* ── LEARNING GOALS ── */
+  .goals-box {
+    background: var(--gold-pale);
+    border: 1.5px solid var(--gold);
+    border-left: 5px solid var(--gold);
+    border-radius: 8px;
+    padding: 14px 16px;
+    margin-bottom: 18px;
+  }
+  .goals-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 13px; font-weight: 700; color: #7d5a00;
+    margin-bottom: 8px; display: flex; align-items: center; gap: 6px;
+  }
+  .goals-list { list-style: none; display: flex; flex-direction: column; gap: 4px; }
+  .goals-list li {
+    display: flex; gap: 8px; font-size: 12px; color: var(--ink-mid);
+  }
+  .goals-list li::before {
+    content: '✦'; color: var(--gold); font-size: 9px; flex-shrink: 0; margin-top: 3px;
+  }
+
+  /* ── STAGE CARDS ── */
+  .stage-card {
+    margin-bottom: 16px;
+    border-radius: 10px;
+    overflow: hidden;
+    border: 1.5px solid var(--line);
+  }
+  .stage-header {
+    padding: 10px 16px;
+    display: flex; align-items: center; gap: 10px;
+  }
+  .stage-num {
+    width: 26px; height: 26px;
+    border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    font-weight: 700; font-size: 12px; color: white;
+    flex-shrink: 0;
+  }
+  .stage-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 14px; font-weight: 700; flex: 1;
+  }
+  .stage-tag {
+    font-size: 10px; font-weight: 600; letter-spacing: 1px;
+    text-transform: uppercase; opacity: .7;
+    padding: 2px 8px; border-radius: 12px;
+    background: rgba(255,255,255,.3); color: white;
+  }
+  .stage-body { padding: 14px 16px; background: white; }
+
+  /* Color themes */
+  .theme-green  .stage-header { background: linear-gradient(90deg, var(--green-deep), var(--green-mid)); }
+  .theme-green  .stage-num { background: var(--green-leaf); }
+  .theme-green  .stage-title { color: white; }
+
+  .theme-amber  .stage-header { background: linear-gradient(90deg, #7d5a00, #c9a84c); }
+  .theme-amber  .stage-num { background: #f4c542; color: #5a3e00; }
+  .theme-amber  .stage-title { color: white; }
+
+  .theme-blue   .stage-header { background: linear-gradient(90deg, #1a3a5c, #1a5276); }
+  .theme-blue   .stage-num { background: #2e86c1; }
+  .theme-blue   .stage-title { color: white; }
+
+  .theme-purple .stage-header { background: linear-gradient(90deg, #3d1a5c, #6c3483); }
+  .theme-purple .stage-num { background: #9b59b6; }
+  .theme-purple .stage-title { color: white; }
+
+  .theme-rose   .stage-header { background: linear-gradient(90deg, #7d1a2a, #c0392b); }
+  .theme-rose   .stage-num { background: #e74c3c; }
+  .theme-rose   .stage-title { color: white; }
+
+  .theme-teal   .stage-header { background: linear-gradient(90deg, #0d4038, #117864); }
+  .theme-teal   .stage-num { background: #1abc9c; }
+  .theme-teal   .stage-title { color: white; }
+
+  .theme-slate  .stage-header { background: linear-gradient(90deg, #1c2833, #2c3e50); }
+  .theme-slate  .stage-num { background: #566573; }
+  .theme-slate  .stage-title { color: white; }
+
+  /* ── WACANA ── */
+  .wacana {
+    background: var(--gold-pale);
+    border: 1px solid #e0c97a;
+    border-left: 5px solid var(--gold);
+    border-radius: 8px;
+    padding: 14px 16px;
+    margin-bottom: 10px;
+  }
+  .wacana-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 14px; font-weight: 700; color: #7d4000;
+    margin-bottom: 8px;
+  }
+  .wacana p {
+    font-family: 'Noto Serif', serif;
+    font-size: 12px; color: #3d2800; line-height: 1.7;
+    margin-bottom: 6px; text-align: justify;
+  }
+  .wacana p:last-child { margin-bottom: 0; }
+
+  /* ── INSTRUCTION ── */
+  .instr {
+    font-size: 12px; color: var(--ink-mid);
+    margin-bottom: 10px; padding: 8px 12px;
+    background: var(--green-cream);
+    border-radius: 6px; border-left: 3px solid var(--green-leaf);
+  }
+  .instr strong { color: var(--green-deep); }
+
+  /* ── ANSWER BOX ── */
+  .answer-block { margin-bottom: 12px; }
+  .answer-label {
+    font-size: 12px; font-weight: 600; color: var(--ink-mid);
+    margin-bottom: 6px;
+  }
+  .answer-box {
+    border: 1.5px solid var(--line);
+    border-radius: 6px;
+    padding: 8px 12px;
+    background: #fdfdfd;
+  }
+  .answer-line {
+    height: 22px;
+    border-bottom: 1px dashed #c8d8c8;
+  }
+  .answer-line:last-child { border-bottom: none; }
+
+  /* ── QUESTIONS ── */
+  .question-item { margin-bottom: 12px; }
+  .question-num {
+    display: inline-block;
+    background: var(--green-mid); color: white;
+    font-size: 10px; font-weight: 700;
+    width: 20px; height: 20px; border-radius: 50%;
+    text-align: center; line-height: 20px;
+    margin-right: 6px; flex-shrink: 0;
+  }
+  .question-text {
+    font-size: 12px; color: var(--ink);
+    display: flex; gap: 0; align-items: flex-start;
+    margin-bottom: 6px;
+  }
+  .q-body { flex: 1; }
+
+  /* ── INVESTIGATION TABLE ── */
+  .inv-table { width: 100%; border-collapse: collapse; margin-bottom: 10px; font-size: 12px; }
+  .inv-table th {
+    background: var(--green-deep); color: white;
+    padding: 7px 10px; text-align: left; font-weight: 600;
+    font-size: 11px;
+  }
+  .inv-table th:first-child { width: 30px; border-radius: 6px 0 0 0; }
+  .inv-table th:last-child { border-radius: 0 6px 0 0; }
+  .inv-table td { padding: 7px 10px; border-bottom: 1px solid var(--line); vertical-align: top; }
+  .inv-table tr:nth-child(even) td { background: var(--green-cream); }
+  .inv-table .method { font-weight: 600; color: var(--green-mid); white-space: nowrap; }
+  .inv-label {
+    width: 24px; height: 24px; border-radius: 50%;
+    background: var(--green-leaf); color: white;
+    display: inline-flex; align-items: center; justify-content: center;
+    font-size: 11px; font-weight: 700;
+  }
+
+  /* ── ANALYSIS TABLE ── */
+  .analysis-table { width: 100%; border-collapse: collapse; margin-bottom: 10px; font-size: 11.5px; }
+  .analysis-table th {
+    padding: 8px 10px; text-align: center; font-weight: 700; font-size: 11px;
+    color: white;
+  }
+  .analysis-table th:nth-child(1) { background: #c0392b; }
+  .analysis-table th:nth-child(2) { background: #1a5276; }
+  .analysis-table th:nth-child(3) { background: var(--green-deep); }
+  .analysis-table td {
+    border: 1px solid var(--line);
+    padding: 0; height: 42px; vertical-align: top;
+  }
+  .analysis-table td .answer-line { height: 42px; border-bottom: none; }
+
+  /* ── OUTPUT OPTIONS ── */
+  .output-grid {
+    display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px;
+    margin-bottom: 12px;
+  }
+  .output-card {
+    border-radius: 8px; padding: 12px 10px; text-align: center;
+    border: 1.5px solid;
+  }
+  .output-card.red   { border-color: #e74c3c; background: #fef9f9; }
+  .output-card.blue  { border-color: #2e86c1; background: #f0f7fc; }
+  .output-card.green { border-color: var(--green-leaf); background: var(--green-cream); }
+  .output-icon { font-size: 22px; margin-bottom: 4px; }
+  .output-name { font-weight: 700; font-size: 12px; margin-bottom: 4px; }
+  .output-card.red   .output-name { color: #c0392b; }
+  .output-card.blue  .output-name { color: #1a5276; }
+  .output-card.green .output-name { color: var(--green-mid); }
+  .output-desc { font-size: 11px; color: var(--ink-faint); line-height: 1.4; }
+
+  /* ── REFLECTION ── */
+  .reflect-q { margin-bottom: 12px; }
+  .reflect-num {
+    display: inline-flex; align-items: center; justify-content: center;
+    width: 22px; height: 22px; border-radius: 50%;
+    background: var(--green-mid); color: white;
+    font-size: 11px; font-weight: 700; flex-shrink: 0;
+    margin-right: 6px;
+  }
+  .reflect-label { display: flex; align-items: flex-start; font-size: 12px; margin-bottom: 6px; }
+
+  /* ── RUBRIC ── */
+  .rubric-table { width: 100%; border-collapse: collapse; font-size: 11px; margin-bottom: 10px; }
+  .rubric-table th {
+    padding: 7px 8px; text-align: center;
+    font-weight: 700; color: white; font-size: 10.5px;
+  }
+  .rubric-table th:first-child { background: var(--green-deep); text-align: left; width: 22%; }
+  .rubric-table th:nth-child(2) { background: #27ae60; }
+  .rubric-table th:nth-child(3) { background: #2980b9; }
+  .rubric-table th:nth-child(4) { background: #e67e22; }
+  .rubric-table th:nth-child(5) { background: #c0392b; }
+  .rubric-table td {
+    border: 1px solid var(--line);
+    padding: 6px 8px; vertical-align: top;
+    font-size: 10.5px; color: var(--ink-mid);
+  }
+  .rubric-table tr:nth-child(even) td { background: #f9faf9; }
+  .rubric-table .aspect { font-weight: 600; color: var(--ink); }
+  .score-guide {
+    background: #ecf0f1; border-radius: 6px;
+    padding: 8px 12px; font-size: 11px; color: var(--ink-mid);
+    border-left: 3px solid var(--green-leaf);
+    display: flex; gap: 16px; flex-wrap: wrap;
+  }
+  .score-item { display: flex; flex-direction: column; gap: 2px; }
+  .score-range { font-weight: 700; color: var(--green-mid); }
+
+  /* ── SUNDA DECORATION ── */
+  .sunda-deco {
+    text-align: center; color: var(--green-leaf);
+    font-size: 18px; letter-spacing: 8px; opacity: .3;
+    margin: 6px 0; font-family: 'Noto Serif', serif;
+  }
+
+  /* ── DIVIDER ── */
+  .divider {
+    height: 1px; background: linear-gradient(90deg, transparent, var(--line), transparent);
+    margin: 14px 0;
+  }
+
+  /* ── FOOTER ── */
+  .footer {
+    text-align: center; font-size: 10px;
+    color: var(--ink-faint); margin-top: 20px;
+    padding-top: 10px; border-top: 1px solid var(--line);
+  }
+</style>
+</head>
+<body>
+
+<div class="no-print">
+  <button class="btn-print" onclick="window.print()">🖨 Cetak / Simpan PDF</button>
+</div>
+
+<div class="page">
+
+  <!-- HERO -->
+  <div class="hero">
+    <div class="hero-label">Lembar Kerja Peserta Didik · PBL</div>
+    <div class="hero-title">Aksara Sunda</div>
+    <div class="hero-sub">Ngajaga Warisan, Ngawangun Identitas</div>
+    <div class="hero-pills">
+      <span class="pill">📚 Bahasa Sunda</span>
+      <span class="pill">🏫 Fase D – Kelas 7 SMP</span>
+      <span class="pill">⏱ 2 × 40 Menit</span>
+      <span class="pill">👥 Kerja Kelompok</span>
+    </div>
+  </div>
+
+  <!-- IDENTITAS -->
+  <div class="identitas-grid">
+    <div class="id-cell"><span class="id-label">Mata Pelajaran</span><span class="id-value">Bahasa Sunda</span></div>
+    <div class="id-cell"><span class="id-label">Kelas / Semester</span><span class="id-value">&nbsp;</span></div>
+    <div class="id-cell"><span class="id-label">Fase</span><span class="id-value">D</span></div>
+    <div class="id-cell"><span class="id-label">Tanggal</span><span class="id-value">&nbsp;</span></div>
+    <div class="id-cell"><span class="id-label">Materi</span><span class="id-value">Aksara Sunda</span></div>
+    <div class="id-cell"><span class="id-label">Nama Kelompok</span><span class="id-value">&nbsp;</span></div>
+    <div class="id-cell"><span class="id-label">Alokasi Waktu</span><span class="id-value">2 × 40 Menit</span></div>
+    <div class="id-cell"><span class="id-label">Anggota</span><span class="id-value">&nbsp;</span></div>
+  </div>
+
+  <!-- TUJUAN -->
+  <div class="goals-box">
+    <div class="goals-title">🎯 Tujuan Pembelajaran</div>
+    <ul class="goals-list">
+      <li>Menganalisis permasalahan yang berkaitan dengan Aksara Sunda di lingkungan sekitar.</li>
+      <li>Menganalisis faktor penyebab dan dampak dari penggunaan Aksara Sunda.</li>
+      <li>Menghubungkan nilai Aksara Sunda dengan kehidupan sehari-hari secara logis.</li>
+      <li>Menyusun solusi berdasarkan hasil analisis secara tepat.</li>
+      <li>Menunjukkan kemampuan kerja sama dalam diskusi kelompok.</li>
+    </ul>
+  </div>
+
+  <!-- TAHAP 1 -->
+  <div class="stage-card theme-green">
+    <div class="stage-header">
+      <div class="stage-num">1</div>
+      <div class="stage-title">Orientasi Masalah</div>
+      <div class="stage-tag">📌 Baca & Pahami</div>
+    </div>
+    <div class="stage-body">
+      <div class="instr"><strong>Petunjuk:</strong> Bacalah wacana berikut dengan saksama bersama kelompokmu. Tandai informasi-informasi penting yang kamu temukan!</div>
+      <div class="wacana">
+        <div class="wacana-title">🗞 "Aksara Sunda Perlahan Terlupakan"</div>
+        <p>Di sebuah sekolah menengah pertama di Jawa Barat, guru Bahasa Sunda menunjukkan tulisan aksara Sunda kepada para siswanya. Hasilnya mengejutkan — hampir tidak ada yang bisa membaca, apalagi menulis aksara tersebut. Padahal, aksara Sunda merupakan warisan budaya yang sudah diakui UNESCO dan diabadikan dalam Perda Jawa Barat.</p>
+        <p>Di berbagai tempat umum seperti papan nama jalan, gedung pemerintahan, bahkan di sekolah sendiri, tulisan aksara Sunda hampir tidak terlihat. Generasi muda lebih akrab dengan huruf Latin dan tulisan digital. Banyak yang menganggap aksara Sunda "kuno" dan tidak berguna di zaman sekarang.</p>
+        <p>Padahal, aksara Sunda bukan sekadar simbol lama. Ia adalah identitas, sejarah, dan kebanggaan masyarakat Sunda yang menyimpan kearifan lokal selama berabad-abad. Pertanyaannya: siapa yang bertanggung jawab, dan apa yang bisa kita lakukan?</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- TAHAP 2 -->
+  <div class="stage-card theme-amber">
+    <div class="stage-header">
+      <div class="stage-num">2</div>
+      <div class="stage-title">Rumusan Masalah</div>
+      <div class="stage-tag">❓ Analisis</div>
+    </div>
+    <div class="stage-body">
+      <div class="instr"><strong>Petunjuk:</strong> Diskusikan bersama kelompokmu untuk menjawab pertanyaan-pertanyaan berikut. Jawaban harus berupa <strong>analisis</strong>, bukan sekadar menyebutkan!</div>
+
+      <div class="question-item">
+        <div class="question-text">
+          <span class="question-num">1</span>
+          <span class="q-body">Mengapa aksara Sunda semakin jarang digunakan oleh generasi muda, padahal sudah diakui sebagai warisan budaya? Jelaskan <strong>minimal 3 faktor penyebabnya</strong> dan kaitan antar faktor tersebut!</span>
+        </div>
+        <div class="answer-box">
+          <div class="answer-line"></div><div class="answer-line"></div>
+          <div class="answer-line"></div><div class="answer-line"></div>
+        </div>
+      </div>
+
+      <div class="question-item">
+        <div class="question-text">
+          <span class="question-num">2</span>
+          <span class="q-body">Apa <strong>dampak</strong> yang terjadi jika aksara Sunda terus ditinggalkan, baik bagi identitas budaya maupun kehidupan sosial masyarakat Sunda? Hubungkan dampak satu dengan yang lainnya!</span>
+        </div>
+        <div class="answer-box">
+          <div class="answer-line"></div><div class="answer-line"></div>
+          <div class="answer-line"></div><div class="answer-line"></div>
+        </div>
+      </div>
+
+      <div class="question-item">
+        <div class="question-text">
+          <span class="question-num">3</span>
+          <span class="q-body">Bagaimana <strong>hubungan</strong> antara penggunaan aksara Sunda dalam kehidupan sehari-hari dengan pelestarian identitas budaya daerah di era digital ini?</span>
+        </div>
+        <div class="answer-box">
+          <div class="answer-line"></div><div class="answer-line"></div>
+          <div class="answer-line"></div><div class="answer-line"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- TAHAP 3 -->
+  <div class="stage-card theme-purple">
+    <div class="stage-header">
+      <div class="stage-num">3</div>
+      <div class="stage-title">Pengumpulan Data &amp; Penyelidikan</div>
+      <div class="stage-tag">🔍 Selidiki</div>
+    </div>
+    <div class="stage-body">
+      <div class="instr"><strong>Petunjuk:</strong> Lakukan penyelidikan menggunakan ketiga cara di bawah ini, lalu catat temuan kalian!</div>
+      <table class="inv-table">
+        <thead>
+          <tr>
+            <th>#</th>
+            <th>Cara Penyelidikan</th>
+            <th>Yang Harus Dilakukan</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><span class="inv-label">A</span></td>
+            <td class="method">🏫 Observasi Lingkungan</td>
+            <td>Amati lingkungan sekitar sekolah atau rumah. Catat apakah ada tulisan aksara Sunda yang kamu temukan (papan nama, prasasti, buku, dll.). Di mana saja ditemukan atau tidak ditemukan?</td>
+          </tr>
+          <tr>
+            <td><span class="inv-label">B</span></td>
+            <td class="method">🗣 Wawancara Mini</td>
+            <td>Tanya minimal 2 orang (guru, orang tua, atau teman): <em>"Apakah kamu mengenal aksara Sunda? Mengapa ya/tidak?"</em> Catat nama, jawaban, dan pendapat mereka.</td>
+          </tr>
+          <tr>
+            <td><span class="inv-label">C</span></td>
+            <td class="method">📖 Sumber Bacaan</td>
+            <td>Baca materi dari buku pelajaran, ensiklopedi, atau sumber yang guru sediakan tentang sejarah, fungsi, dan bentuk aksara Sunda. Catat 3 fakta penting!</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <div class="answer-block">
+        <div class="answer-label">📝 Catatan Hasil Penyelidikan Kelompok:</div>
+        <div class="answer-box">
+          <div class="answer-line"></div><div class="answer-line"></div>
+          <div class="answer-line"></div><div class="answer-line"></div>
+          <div class="answer-line"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- TAHAP 4 -->
+  <div class="stage-card theme-blue">
+    <div class="stage-header">
+      <div class="stage-num">4</div>
+      <div class="stage-title">Pengolahan &amp; Analisis Data</div>
+      <div class="stage-tag">📊 Kelompokkan</div>
+    </div>
+    <div class="stage-body">
+      <div class="instr"><strong>Petunjuk:</strong> Gunakan data yang sudah kamu kumpulkan untuk mengisi tabel analisis sebab-akibat berikut. Tulis dengan kalimatmu sendiri!</div>
+      <table class="analysis-table">
+        <thead>
+          <tr>
+            <th>🔴 FAKTOR PENYEBAB<br><small>Mengapa aksara Sunda terlupakan?</small></th>
+            <th>🔵 DAMPAK YANG TERJADI<br><small>Apa akibatnya?</small></th>
+            <th>🟢 KAITAN IDENTITAS BUDAYA<br><small>Apa hubungannya dengan budaya?</small></th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><div class="answer-line" style="height:38px;"></div></td>
+            <td><div class="answer-line" style="height:38px;"></div></td>
+            <td><div class="answer-line" style="height:38px;"></div></td>
+          </tr>
+          <tr>
+            <td><div class="answer-line" style="height:38px;"></div></td>
+            <td><div class="answer-line" style="height:38px;"></div></td>
+            <td><div class="answer-line" style="height:38px;"></div></td>
+          </tr>
+          <tr>
+            <td><div class="answer-line" style="height:38px;"></div></td>
+            <td><div class="answer-line" style="height:38px;"></div></td>
+            <td><div class="answer-line" style="height:38px;"></div></td>
+          </tr>
+        </tbody>
+      </table>
+
+      <div class="answer-block">
+        <div class="answer-label">🔗 Kesimpulan Analisis: Hubungan sebab-akibat yang paling kuat menurut kelompokmu adalah...</div>
+        <div class="answer-box">
+          <div class="answer-line"></div><div class="answer-line"></div><div class="answer-line"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- TAHAP 5 -->
+  <div class="stage-card theme-rose">
+    <div class="stage-header">
+      <div class="stage-num">5</div>
+      <div class="stage-title">Pengembangan &amp; Penyajian Hasil</div>
+      <div class="stage-tag">🖊 Buat Solusi</div>
+    </div>
+    <div class="stage-body">
+      <div class="instr"><strong>Petunjuk:</strong> Berdasarkan hasil analisis kelompokmu, susunlah sebuah <strong>solusi nyata</strong>! Pilih salah satu bentuk penyajian di bawah ini.</div>
+
+      <div class="output-grid">
+        <div class="output-card red">
+          <div class="output-icon">🎨</div>
+          <div class="output-name">Poster</div>
+          <div class="output-desc">Buat poster menarik berisi ajakan pelestarian aksara Sunda untuk dipasang di sekolah.</div>
+        </div>
+        <div class="output-card blue">
+          <div class="output-icon">📄</div>
+          <div class="output-name">Laporan Singkat</div>
+          <div class="output-desc">Tuliskan laporan berisi temuan, analisis, dan solusi kelompokmu secara terstruktur.</div>
+        </div>
+        <div class="output-card green">
+          <div class="output-icon">🎤</div>
+          <div class="output-name">Presentasi</div>
+          <div class="output-desc">Siapkan presentasi lisan singkat (3–5 menit) dengan poin-poin utama di depan kelas.</div>
+        </div>
+      </div>
+
+      <div class="answer-block">
+        <div class="answer-label">📌 Judul / Nama Program Solusi Kelompok Kami:</div>
+        <div class="answer-box"><div class="answer-line"></div></div>
+      </div>
+      <div class="answer-block">
+        <div class="answer-label">💡 Uraian Solusi — Apa yang akan dilakukan, mengapa, dan bagaimana caranya?</div>
+        <div class="answer-box">
+          <div class="answer-line"></div><div class="answer-line"></div>
+          <div class="answer-line"></div><div class="answer-line"></div>
+          <div class="answer-line"></div><div class="answer-line"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- TAHAP 6 -->
+  <div class="stage-card theme-teal">
+    <div class="stage-header">
+      <div class="stage-num">6</div>
+      <div class="stage-title">Refleksi</div>
+      <div class="stage-tag">💭 Renungkan</div>
+    </div>
+    <div class="stage-body">
+      <div class="instr"><strong>Petunjuk:</strong> Jawab pertanyaan refleksi berikut secara jujur dan berdasarkan pengalamanmu hari ini!</div>
+
+      <div class="reflect-q">
+        <div class="reflect-label"><span class="reflect-num">1</span><span>Apa hal baru yang kamu pelajari tentang aksara Sunda hari ini yang <em>sebelumnya belum kamu ketahui</em>?</span></div>
+        <div class="answer-box"><div class="answer-line"></div><div class="answer-line"></div><div class="answer-line"></div></div>
+      </div>
+      <div class="reflect-q">
+        <div class="reflect-label"><span class="reflect-num">2</span><span>Setelah mengetahui dampak hilangnya aksara Sunda, <strong>sikap nyata apa</strong> yang akan kamu lakukan dalam kehidupan sehari-hari?</span></div>
+        <div class="answer-box"><div class="answer-line"></div><div class="answer-line"></div><div class="answer-line"></div></div>
+      </div>
+      <div class="reflect-q">
+        <div class="reflect-label"><span class="reflect-num">3</span><span>Bagaimana perasaanmu saat bekerja sama dalam kelompok? Apa yang perlu diperbaiki untuk kerja sama yang lebih baik?</span></div>
+        <div class="answer-box"><div class="answer-line"></div><div class="answer-line"></div><div class="answer-line"></div></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- TAHAP 7: RUBRIK -->
+  <div class="stage-card theme-slate">
+    <div class="stage-header">
+      <div class="stage-num">7</div>
+      <div class="stage-title">Rubrik Penilaian</div>
+      <div class="stage-tag">📋 Untuk Guru</div>
+    </div>
+    <div class="stage-body">
+      <table class="rubric-table">
+        <thead>
+          <tr>
+            <th>Aspek</th>
+            <th>Sangat Baik (4)</th>
+            <th>Baik (3)</th>
+            <th>Cukup (2)</th>
+            <th>Perlu Bimbingan (1)</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td class="aspect">Kemampuan Analisis</td>
+            <td>Analisis mendalam, logis, dan lengkap dengan kaitan antar faktor yang jelas</td>
+            <td>Analisis cukup baik, ada sedikit kekeliruan atau kurang mendalam</td>
+            <td>Analisis ada tetapi kurang mendalam dan tidak menunjukkan hubungan antar faktor</td>
+            <td>Tidak ada analisis; hanya menyebutkan fakta tanpa mengolahnya</td>
+          </tr>
+          <tr>
+            <td class="aspect">Kualitas Solusi</td>
+            <td>Solusi kreatif, relevan dengan masalah, dan realistis untuk dilaksanakan</td>
+            <td>Solusi relevan tetapi kurang detail atau kurang kreatif</td>
+            <td>Solusi ada tetapi kurang sesuai dengan hasil analisis</td>
+            <td>Tidak ada solusi yang dirumuskan</td>
+          </tr>
+          <tr>
+            <td class="aspect">Kerja Sama</td>
+            <td>Semua anggota kelompok aktif berkontribusi dan saling mendukung</td>
+            <td>Sebagian besar anggota aktif; ada 1–2 yang kurang berpartisipasi</td>
+            <td>Hanya sebagian kecil anggota yang aktif; kelompok kurang solid</td>
+            <td>Tidak ada kerja sama; diskusi tidak berjalan</td>
+          </tr>
+          <tr>
+            <td class="aspect">Komunikasi / Penyajian</td>
+            <td>Penyajian jelas, runtut, rapi, dan mudah dipahami oleh orang lain</td>
+            <td>Penyajian cukup jelas; ada bagian yang membingungkan</td>
+            <td>Penyajian kurang jelas dan tidak terstruktur</td>
+            <td>Penyajian tidak dapat dipahami atau tidak ada penyajian</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <div class="score-guide">
+        <div><strong style="color:var(--ink-mid)">Pedoman Skor (Maks. 16 poin)</strong></div>
+        <div class="score-item"><span class="score-range">13–16</span><span>Sangat Baik</span></div>
+        <div class="score-item"><span class="score-range">9–12</span><span>Baik</span></div>
+        <div class="score-item"><span class="score-range">5–8</span><span>Cukup</span></div>
+        <div class="score-item"><span class="score-range">1–4</span><span>Perlu Bimbingan</span></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="sunda-deco">ᮃ ᮊ ᮞ ᮛ ᮞ ᮥ ᮔ ᮓ ᮃ</div>
+
+  <div class="footer">
+    LKPD Bahasa Sunda · Fase D · Materi Aksara Sunda · Berbasis Problem Based Learning (PBL)
+  </div>
+
+</div>
+
+</body>
+</html>
